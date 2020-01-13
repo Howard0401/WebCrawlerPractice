@@ -1,0 +1,7 @@
+aiohttp
+asyncio
+bs4
+flask
+pandas
+urllib3
+gunicorn
