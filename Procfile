@@ -1,1 +1,1 @@
-web gunicorn camera:app
+web gunicorn Home:app
