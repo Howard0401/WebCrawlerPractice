@@ -39,6 +39,7 @@ app = Flask(__name__)
 
 def _parse_results(url, html):
     # print(url)
+
     try:
         soup = BeautifulSoup(html, 'html.parser')
         selNameImgStr1 = soup.select(Utility.selNameImg("視聽家電"))
@@ -52,17 +53,16 @@ def _parse_results(url, html):
         selPriceStr3 = soup.select(Utility.selPrice("廚房家電"))
         selPriceStr4 = soup.select(Utility.selPrice("健康-美容家電"))
         selPriceStr5 = soup.select(Utility.selPrice("按摩家電"))
-        name = list()
-        img = list()
-        minPrice = list()
-        maxPrice = list()
 
-        video = makeProp(name, img, minPrice, maxPrice)
-        life = makeProp(name, img, minPrice, maxPrice)
-        kitchen = makeProp(name, img, minPrice, maxPrice)
-        health = makeProp(name, img, minPrice, maxPrice)
-        massage = makeProp(name, img, minPrice, maxPrice)
-        for i in range(10):
+        video = makeProp(list(), list(), list(), list())
+        life = makeProp(list(), list(), list(), list())
+        kitchen = makeProp(list(), list(), list(), list())
+        health = makeProp(list(), list(), list(), list())
+        massage = makeProp(list(), list(), list(), list())
+
+        # print(selNameImgStr4)
+        # print(len(selName))
+        for i in range(len(selNameImgStr1)):
             # video
             video.name.append(selNameImgStr1[i].get('alt'))
             video.img.append(selNameImgStr1[i].get('src'))
@@ -79,7 +79,7 @@ def _parse_results(url, html):
             massage.name.append(selNameImgStr5[i].get('alt'))
             massage.img.append(selNameImgStr5[i].get('src'))
 
-        for i in range(30):
+        for i in range(len(selPriceStr1)):
             # minprice
             if(i % 3 == 1):
                 video.minPrice.append(selPriceStr1[i].get('content'))
@@ -116,7 +116,6 @@ def _parse_results(url, html):
             orient='records', force_ascii=False))
         massageOutput = json.loads(massageTable.to_json(
             orient='records', force_ascii=False))
-
         output = {'video': videoOutput, 'life': lifeOutput,
                   'kitchen': kitchenOutput, 'health': healthOutput, 'message': massageOutput}
         return output
